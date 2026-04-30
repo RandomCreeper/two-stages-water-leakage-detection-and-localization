@@ -15,7 +15,8 @@ This repository was built for an ML709 IoT Smart Systems, Services and Applicati
 ├── full_version/
 │   ├── battledim_stage1.py
 │   ├── battledim_stage1_tuned_config.json
-│   └── battledim_stage2_a_v2.ipynb
+│   ├── battledim_stage2_a_v2.ipynb
+│   └── results/
 ├── preprocess/
 │   ├── data_preprocessing.ipynb
 │   └── preprocessed_data_check.ipynb
@@ -23,7 +24,8 @@ This repository was built for an ML709 IoT Smart Systems, Services and Applicati
 │   ├── battledim_stage1_tiny.py
 │   ├── battledim_tinyml_driver.py
 │   ├── battledim_tinyml_export.py
-│   └── battledim_tinyml_final.py
+│   ├── battledim_tinyml_final.py
+│   └── results/
 └── README.md
 ```
 
@@ -41,6 +43,7 @@ Contains the **reference / full-size pipeline**.
 - `battledim_stage1.py` recall-first Stage 1 detector
 - `battledim_stage1_tuned_config.json` tuned Stage 1 configuration
 - `battledim_stage2_a_v2.ipynb` patched Stage 2 notebook for packet building, confirmation, localization, evaluation, and reporting
+- `results/` stores exported outputs from the full-size pipeline, such as tables, plots, and notebook-generated evaluation artifacts
 
 #### `tinyML/`
 Contains the **compressed MCU-friendly version**.
@@ -49,6 +52,7 @@ Contains the **compressed MCU-friendly version**.
 - `battledim_tinyml_final.py` core TinyML pipeline implementation and exports
 - `battledim_tinyml_driver.py` easiest entry point to run all TinyML candidates and select the best one
 - `battledim_tinyml_export.py` exports final run artifacts from cached candidate summaries
+- `results/` stores TinyML run outputs, such as timestamped experiment folders, memory tables, metric CSVs, predictions, and deployment artifacts
 
 > On Linux and macOS, the folder name is case-sensitive: use `tinyML/`, not `tinyml/`.
 
@@ -270,7 +274,7 @@ python full_version/battledim_stage1.py \
   --timestamp-col Timestamp \
   --train-year 2018 \
   --test-year 2019 \
-  --output-dir ./stage1_outputs
+  --output-dir ./full_version/results/stage1_outputs
 ```
 
 Then open the Stage 2 notebook:
@@ -287,7 +291,7 @@ That notebook is the main entry point for the full-size Stage 2 experiments.
 From the **repository root**, the easiest command is:
 
 ```bash
-python tinyML/battledim_tinyml_driver.py --output-root ./outputs
+python tinyML/battledim_tinyml_driver.py --output-root ./tinyML/results
 ```
 
 This will:
@@ -296,11 +300,11 @@ This will:
 - choose the best one
 - write a timestamped output folder with artifacts
 
- To run from inside the `tinyML/` folder instead, use:
+If you prefer to run from inside the `tinyML/` folder instead, use:
 
 ```bash
 cd tinyML
-python battledim_tinyml_driver.py --output-root ../outputs
+python battledim_tinyml_driver.py --output-root ./results
 ```
 
 #### Evaluate a single candidate
@@ -310,8 +314,8 @@ From the **repository root**:
 ```bash
 python tinyML/battledim_tinyml_driver.py \
   --eval-candidate tiny_weekly168_ovr \
-  --summary-json ./eval/tiny_weekly168_ovr_summary.json \
-  --memory-csv ./eval/tiny_weekly168_ovr_memory.csv
+  --summary-json ./tinyML/results/eval/tiny_weekly168_ovr_summary.json \
+  --memory-csv ./tinyML/results/eval/tiny_weekly168_ovr_memory.csv
 ```
 
 #### Export from cached candidate summaries
@@ -320,8 +324,8 @@ From the **repository root**:
 
 ```bash
 python tinyML/battledim_tinyml_export.py \
-  --summary-dir ./eval \
-  --output-root ./outputs
+  --summary-dir ./tinyML/results/eval \
+  --output-root ./tinyML/results
 ```
 
 ---
@@ -350,6 +354,8 @@ These artifacts are meant for:
 - plotting
 - report writing
 - firmware integration
+
+By default, keeping them under `tinyML/results/` makes it easier to separate compressed-model outputs from the full-size notebook results saved under `full_version/results/`.
 
 ---
 
