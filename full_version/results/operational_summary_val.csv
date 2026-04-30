@@ -1,0 +1,7 @@
+metric,value
+n_packets,212.0
+n_actual_triggers,145.0
+n_real_hard_negatives,2.0
+accept_frac_all_packets,0.6745283018867925
+accept_frac_actual_triggers,0.9862068965517241
+accept_frac_real_hard_negatives,0.0

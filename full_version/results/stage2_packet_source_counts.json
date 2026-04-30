@@ -1,0 +1,8 @@
+{
+  "actual_dev_triggers": 721,
+  "actual_dev_positive_triggers": 714,
+  "actual_dev_negative_triggers": 7,
+  "pseudo_hard_negative_total": 51,
+  "healthy_non_trigger_pool": 917,
+  "easy_negative_total": 250
+}

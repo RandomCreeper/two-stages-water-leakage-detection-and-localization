@@ -1,0 +1,53 @@
+{
+  "run_dir": "/home/ali/Documents/iot_project/iot_project/battledim_stage2_runs/run_20260419_180509",
+  "pipeline_config": {
+    "data_path": "data_full_2018_2019_fixed.csv",
+    "config_path": "battledim_stage1_tuned_config.json",
+    "timestamp_col": "Timestamp",
+    "lookback_steps": 144,
+    "step_minutes": 5,
+    "summary_horizons": [
+      12,
+      36,
+      72,
+      144
+    ],
+    "stage1_fit_healthy_frac": 0.6,
+    "include_flow3_context": true,
+    "enable_regression_head": true,
+    "binary_min_recall": 0.95,
+    "binary_precision_targets": [
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9
+    ],
+    "easy_negative_ratio_per_positive": 0.35,
+    "hard_peak_negative_ratio_per_positive": 0.25,
+    "sampled_negative_weight": 0.55,
+    "pseudo_hard_negative_weight": 0.9,
+    "real_hard_negative_weight": 1.25,
+    "output_root": "battledim_stage2_runs",
+    "random_state": 42
+  },
+  "resolved_data_path": "data_full_2018_2019_fixed.csv",
+  "resolved_config_path": "battledim_stage1_tuned_config.json",
+  "packet_source_counts": {
+    "actual_dev_triggers": 721,
+    "actual_dev_positive_triggers": 714,
+    "actual_dev_negative_triggers": 7,
+    "pseudo_hard_negative_total": 51,
+    "healthy_non_trigger_pool": 917,
+    "easy_negative_total": 250
+  },
+  "threshold_choice": {
+    "threshold": 0.9739572638050862,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+  },
+  "binary_backend": "sklearn_hgb",
+  "binary_calibrator": "isotonic",
+  "regression_backend": "sklearn_hgb"
+}
