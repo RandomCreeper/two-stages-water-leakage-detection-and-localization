@@ -424,44 +424,6 @@ This approach is strong for this problem because:
 
 ---
 
-## Limitations and honest caveats
-
-- the merged dataset is highly imbalanced and `leak_binary` is not a clean main target
-- 2019 is effectively all-positive for the binary head, so it is not a fair false-alarm rejection test
-- Stage 1 development negatives are very limited, so uncertainty remains in false-alarm estimates
-- the BattLeDIM setting is cleaner than real utility telemetry, with fewer real-world issues like packet loss, delay, or sensor faults
-
----
-
-## Who this repo is for
-
-This repository is useful for:
-
-- students learning multi-stage ML system design
-- researchers interested in BattLeDIM-style leak detection
-- TinyML practitioners compressing time-series pipelines for MCUs
-- embedded developers who need a realistic example of “desktop model to deployable model” compression
-
----
-
-## Suggested next improvements
-
-Some useful future extensions are:
-
-- add dataset download/setup automation
-- add a requirements file and environment file
-- add a firmware runtime example using the exported `.h` files
-- add robustness tests with noise, drift, missing values, and delayed telemetry
-- add GitHub Actions for reproducibility checks
-
----
-
-## Acknowledgment
-
-This project follows a BattLeDIM-style framing: a cheap detection stage followed by a heavier confirmation/localization stage, adapted here into both a full-size research pipeline and a TinyML deployment path.
-
----
-
 ## Questions
 
 Questions, issues, and suggestions are welcome.
