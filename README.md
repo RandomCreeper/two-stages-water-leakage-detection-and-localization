@@ -19,10 +19,12 @@ This repository was built for an ML709 IoT Smart Systems, Services and Applicati
 ├── preprocess/
 │   ├── data_preprocessing.ipynb
 │   └── preprocessed_data_check.ipynb
-├── battledim_stage1_tiny.py
-├── battledim_tinyml_final.py
-├── battledim_tinyml_driver.py
-└── battledim_tinyml_export.py
+├── tinyML/
+│   ├── battledim_stage1_tiny.py
+│   ├── battledim_tinyml_driver.py
+│   ├── battledim_tinyml_export.py
+│   └── battledim_tinyml_final.py
+└── README.md
 ```
 
 ### What each part does
@@ -30,23 +32,25 @@ This repository was built for an ML709 IoT Smart Systems, Services and Applicati
 #### `preprocess/`
 Contains the data-preparation notebooks.
 
-- `data_preprocessing.ipynb`  builds or cleans the merged SCADA table used by the models
+- `data_preprocessing.ipynb` builds or cleans the merged SCADA table used by the models
 - `preprocessed_data_check.ipynb` validates the processed dataset and checks the resulting schema
 
 #### `full_version/`
 Contains the **reference / full-size pipeline**.
 
-- `battledim_stage1.py`  recall-first Stage 1 detector
-- `battledim_stage1_tuned_config.json`  tuned Stage 1 configuration
-- `battledim_stage2_a_v2.ipynb`  patched Stage 2 notebook for packet building, confirmation, localization, evaluation, and reporting
+- `battledim_stage1.py` recall-first Stage 1 detector
+- `battledim_stage1_tuned_config.json` tuned Stage 1 configuration
+- `battledim_stage2_a_v2.ipynb` patched Stage 2 notebook for packet building, confirmation, localization, evaluation, and reporting
 
-#### TinyML scripts in the repo root
-These implement the **compressed MCU-friendly version**.
+#### `tinyML/`
+Contains the **compressed MCU-friendly version**.
 
-- `battledim_stage1_tiny.py`  compact Stage 1 detector intended for embedded-style use
-- `battledim_tinyml_final.py`  core TinyML pipeline implementation and exports
-- `battledim_tinyml_driver.py`  easiest entry point to run all TinyML candidates and select the best one
-- `battledim_tinyml_export.py`  exports final run artifacts from cached candidate summaries
+- `battledim_stage1_tiny.py` compact Stage 1 detector intended for embedded-style use
+- `battledim_tinyml_final.py` core TinyML pipeline implementation and exports
+- `battledim_tinyml_driver.py` easiest entry point to run all TinyML candidates and select the best one
+- `battledim_tinyml_export.py` exports final run artifacts from cached candidate summaries
+
+> On Linux and macOS, the folder name is case-sensitive: use `tinyML/`, not `tinyml/`.
 
 ---
 
@@ -152,7 +156,7 @@ The TinyML system replaces it with much smaller seasonal memories such as:
 - a 168-bin weekly-hour table
 
 #### 5. Model simplification
-The TinyML version replaces large stage-2 models with much smaller alternatives such as:
+The TinyML version replaces large Stage 2 models with much smaller alternatives such as:
 
 - linear confirmation models
 - prototype localizers
@@ -247,7 +251,7 @@ So the TinyML version keeps the project idea while making deployment realistic f
 
 ## Quick start
 
-## 1) Preprocessing
+### 1) Preprocessing
 Open the notebooks in `preprocess/` and run them in order:
 
 1. `preprocess/data_preprocessing.ipynb`
@@ -257,8 +261,8 @@ Use this stage to generate or validate the merged dataset before running the mod
 
 ---
 
-## 2) Run the full-size Stage 1 detector
-From the repo root, adjust paths as needed and run:
+### 2) Run the full-size Stage 1 detector
+From the **repository root**, adjust paths as needed and run:
 
 ```bash
 python full_version/battledim_stage1.py \
@@ -279,11 +283,11 @@ That notebook is the main entry point for the full-size Stage 2 experiments.
 
 ---
 
-## 3) Run the TinyML pipeline
-The easiest command is:
+### 3) Run the TinyML pipeline
+From the **repository root**, the easiest command is:
 
 ```bash
-python battledim_tinyml_driver.py --output-root ./outputs
+python tinyML/battledim_tinyml_driver.py --output-root ./outputs
 ```
 
 This will:
@@ -292,19 +296,30 @@ This will:
 - choose the best one
 - write a timestamped output folder with artifacts
 
-### Evaluate a single candidate
+If you prefer to run from inside the `tinyML/` folder instead, use:
 
 ```bash
-python battledim_tinyml_driver.py \
+cd tinyML
+python battledim_tinyml_driver.py --output-root ../outputs
+```
+
+#### Evaluate a single candidate
+
+From the **repository root**:
+
+```bash
+python tinyML/battledim_tinyml_driver.py \
   --eval-candidate tiny_weekly168_ovr \
   --summary-json ./eval/tiny_weekly168_ovr_summary.json \
   --memory-csv ./eval/tiny_weekly168_ovr_memory.csv
 ```
 
-### Export from cached candidate summaries
+#### Export from cached candidate summaries
+
+From the **repository root**:
 
 ```bash
-python battledim_tinyml_export.py \
+python tinyML/battledim_tinyml_export.py \
   --summary-dir ./eval \
   --output-root ./outputs
 ```
@@ -368,7 +383,7 @@ This approach is strong for this problem because:
 
 1. water-network signals have recurring daily and weekly behavior, so Stage 1 can model normal patterns and detect deviations
 2. leaks often create persistent changes, so packet-level confirmation works better than single-timestep classification
-3. a two-stage design is operationally realistic, always-on cheap screening, trigger-only deeper analysis
+3. a two-stage design is operationally realistic: always-on cheap screening, trigger-only deeper analysis
 4. the localization step is only run when needed, which is ideal for embedded deployment
 5. the TinyML version preserves the useful structure instead of oversimplifying the whole task into one weak classifier
 
