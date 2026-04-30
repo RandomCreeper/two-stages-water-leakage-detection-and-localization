@@ -1,0 +1,5 @@
+metric,value
+macro_f1_pipes,0.1669184822737241
+top1_hit_rate,1.0
+top3_hit_rate,1.0
+mAP_pipes,0.11188811188811189

@@ -1,0 +1,15 @@
+metric,value
+n_packets,210.0
+positive_rate,0.680952380952381
+precision,0.9862068965517241
+recall,1.0
+f1,0.9930555555555556
+accepted_fraction,0.6904761904761905
+brier,0.009449452682547928
+pr_auc,0.9950832870836787
+roc_auc,0.9917545141425739
+recall_at_precision_0.50,1.0
+recall_at_precision_0.60,1.0
+recall_at_precision_0.70,1.0
+recall_at_precision_0.80,1.0
+recall_at_precision_0.90,1.0

@@ -1,0 +1,11 @@
+metric,value
+timestep_recall,1.0
+timestep_precision,0.9921446769088242
+false_positive_rate,0.8809523809523809
+active_fraction,0.9989395955038849
+truth_fraction,0.9910926022326335
+n_truth_events,1.0
+n_detected_events,2.0
+event_recall,1.0
+stage2_calls_per_day,1.997229916897507
+stage2_call_fraction,0.0069504694699905525
