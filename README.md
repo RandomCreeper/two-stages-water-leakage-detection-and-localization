@@ -15,7 +15,7 @@ The core idea is to avoid running a heavy leak-localization model all the time.
 
 Instead, the system is split into two stages:
 
-### Stage 1 — always-on, cheap detector
+### Stage 1: always-on, cheap detector
 Stage 1 runs continuously on the incoming time series.
 Its job is to answer:
 
@@ -29,7 +29,7 @@ Stage 1 is designed to be:
 
 That means it prefers **not missing leaks**, even if it occasionally triggers unnecessary deeper checks.
 
-### Stage 2 — trigger-only confirmer and localizer
+### Stage 2: trigger-only confirmer and localizer
 Stage 2 runs **only when Stage 1 triggers**.
 Its job is to answer:
 
@@ -39,25 +39,6 @@ Its job is to answer:
 This two-stage design is practical for embedded systems because the expensive logic is only executed when needed.
 
 ---
-
-## Why this repository is useful
-
-This repo contains the full workflow for a BattLeDIM-style project:
-
-- preprocessing notebooks
-- full-size Stage 1 + Stage 2 pipeline
-- TinyML / MCU-friendly compressed pipeline
-- deployment-oriented export logic
-- support for report-ready outputs, plots, and artifacts
-
-So the repo is useful both as:
-
-- a **course project submission**
-- a **reference implementation for two-stage leak detection**
-- a **case study in compressing a time-series ML pipeline for microcontrollers**
-
----
-
 ## Repository structure
 
 ```text
@@ -80,23 +61,23 @@ So the repo is useful both as:
 #### `preprocess/`
 Contains the data-preparation notebooks.
 
-- `data_preprocessing.ipynb` — builds or cleans the merged SCADA table used by the models
-- `preprocessed_data_check.ipynb` — validates the processed dataset and checks the resulting schema
+- `data_preprocessing.ipynb`  builds or cleans the merged SCADA table used by the models
+- `preprocessed_data_check.ipynb` validates the processed dataset and checks the resulting schema
 
 #### `full_version/`
 Contains the **reference / full-size pipeline**.
 
-- `battledim_stage1.py` — recall-first Stage 1 detector
-- `battledim_stage1_tuned_config.json` — tuned Stage 1 configuration
-- `battledim_stage2_a_v2.ipynb` — patched Stage 2 notebook for packet building, confirmation, localization, evaluation, and reporting
+- `battledim_stage1.py`  recall-first Stage 1 detector
+- `battledim_stage1_tuned_config.json`  tuned Stage 1 configuration
+- `battledim_stage2_a_v2.ipynb`  patched Stage 2 notebook for packet building, confirmation, localization, evaluation, and reporting
 
 #### TinyML scripts in the repo root
 These implement the **compressed MCU-friendly version**.
 
-- `battledim_stage1_tiny.py` — compact Stage 1 detector intended for embedded-style use
-- `battledim_tinyml_final.py` — core TinyML pipeline implementation and exports
-- `battledim_tinyml_driver.py` — easiest entry point to run all TinyML candidates and select the best one
-- `battledim_tinyml_export.py` — exports final run artifacts from cached candidate summaries
+- `battledim_stage1_tiny.py`  compact Stage 1 detector intended for embedded-style use
+- `battledim_tinyml_final.py`  core TinyML pipeline implementation and exports
+- `battledim_tinyml_driver.py`  easiest entry point to run all TinyML candidates and select the best one
+- `battledim_tinyml_export.py`  exports final run artifacts from cached candidate summaries
 
 ---
 
@@ -418,7 +399,7 @@ This approach is strong for this problem because:
 
 1. water-network signals have recurring daily and weekly behavior, so Stage 1 can model normal patterns and detect deviations
 2. leaks often create persistent changes, so packet-level confirmation works better than single-timestep classification
-3. a two-stage design is operationally realistic — always-on cheap screening, trigger-only deeper analysis
+3. a two-stage design is operationally realistic, always-on cheap screening, trigger-only deeper analysis
 4. the localization step is only run when needed, which is ideal for embedded deployment
 5. the TinyML version preserves the useful structure instead of oversimplifying the whole task into one weak classifier
 
