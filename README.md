@@ -8,37 +8,6 @@ A BattLeDIM-style water-leak detection and localization project with **two versi
 This repository was built for an ML709 IoT Smart Systems, Services and Applications project focused on **detecting and localizing water leaks from 5-minute SCADA data** using a **two-stage detector deployable on a microcontroller**.
 
 ---
-
-## Project idea in one minute
-
-The core idea is to avoid running a heavy leak-localization model all the time.
-
-Instead, the system is split into two stages:
-
-### Stage 1: always-on, cheap detector
-Stage 1 runs continuously on the incoming time series.
-Its job is to answer:
-
-> “Does the network look suspicious enough to justify a deeper check?”
-
-Stage 1 is designed to be:
-- causal
-- streaming
-- low-cost
-- recall-first
-
-That means it prefers **not missing leaks**, even if it occasionally triggers unnecessary deeper checks.
-
-### Stage 2: trigger-only confirmer and localizer
-Stage 2 runs **only when Stage 1 triggers**.
-Its job is to answer:
-
-1. Is this trigger likely to be a real leak?
-2. Which pipe is the most likely source?
-
-This two-stage design is practical for embedded systems because the expensive logic is only executed when needed.
-
----
 ## Repository structure
 
 ```text
