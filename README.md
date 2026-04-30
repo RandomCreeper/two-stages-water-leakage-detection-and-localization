@@ -296,7 +296,7 @@ This will:
 - choose the best one
 - write a timestamped output folder with artifacts
 
-If you prefer to run from inside the `tinyML/` folder instead, use:
+ To run from inside the `tinyML/` folder instead, use:
 
 ```bash
 cd tinyML
